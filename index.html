@@ -17,6 +17,24 @@
     text-shadow: 10px 10px 0 lightgray;
    }
 
+   button {
+    border-radius: 10px;
+   }
+
+   #help {
+       position: fixed;
+       top: 30px;
+       left: 30px;
+       color: white;
+       background-color: gray;
+       padding: 5px 10px 5px 10px;
+   }
+
+   #help:hover {
+       color:white;
+       background-color: black;
+   }
+
    #grid {
     max-width: 500px;
     margin: 0 auto;
@@ -54,11 +72,10 @@
        padding: 50px;
    }
 
-   button {
+   #raffle{
        width: 300px;
        font-size: large;
        padding: 10px;
-       border-radius: 10px;
    }
 
    button:hover {
@@ -67,15 +84,22 @@
        color: white;
        background-color: black;
    }
+
+   @media (max-width: 680px) {
+       h1 {
+            padding-top: 50px;
+       }
+   }
   </style>
   <title>Static Template</title>
  </head>
  <body>
   <div class="hero">
   <h1>Fundraising Grid</h1>
+  <a href="https://venmo.com/Thad-Daniels"><button id="help">Lemme hold a dollar</button></a>
   <div id="grid"></div>
   <div id="select-winner">
-  <button onclick="raffle()">Click here to start the raffle!</button>
+  <button id="raffle" onclick="raffle()">Click here to start the raffle!</button>
   <div id="winner"></div>
   </div>
   </div>
