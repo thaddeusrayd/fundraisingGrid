@@ -14,6 +14,7 @@
    h1 {
     text-align: center;
     padding: 30px;
+    text-shadow: 10px 10px 0 lightgray;
    }
 
    #grid {
@@ -70,18 +71,23 @@
   <title>Static Template</title>
  </head>
  <body>
+  <div class="hero">
   <h1>Fundraising Grid</h1>
   <div id="grid"></div>
   <div id="select-winner">
   <button onclick="raffle()">Click here to start the raffle!</button>
   <div id="winner"></div>
   </div>
+  </div>
   <script>
    const grid = document.getElementById("grid");
    const entries = JSON.parse(localStorage.getItem("entries")) || [];
    const takenBlocks = JSON.parse(localStorage.getItem("takenBlocks")) || [];
    const winner = document.getElementById("winner");
-   const titleText = document.querySelector('h1');
+   
+   const hero = document.querySelector(".hero");
+   const titleText = document.querySelector("h1");
+   const walk = 100;
 
    for (let i = 1; i < 101; i++) {
     let cell = document.createElement("span");
@@ -125,6 +131,25 @@
     winner.appendChild(announcement);
     console.log(announcement);
    }
+
+   function shadow(e) {
+        const { offsetWidth: width, offsetHeight: height } = hero;
+        let { offsetX: x, offsetY: y } = e;
+
+        if(this !== e.target) {
+            x = x + e.target.offsetLeft;
+            y = y + e.target.offsetTop;
+        }
+
+        const xWalk = Math.round((x / width * walk) - (walk / 2));
+        const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+        titleText.style.textShadow = `
+            ${xWalk}px ${yWalk}px 0 lightgray
+            `;
+    }
+
+    hero.addEventListener('mousemove', shadow);
 
    grid.addEventListener("click", selectBlock);
   </script>
