@@ -13,6 +13,7 @@
 
    h1 {
     text-align: center;
+    padding: 30px;
    }
 
    #grid {
@@ -42,19 +43,45 @@
    .span--taken {
     background-color: black;
    }
+
+   #select-winner {
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       width: 100%;
+       padding: 50px;
+   }
+
+   button {
+       width: 300px;
+       font-size: large;
+       padding: 10px;
+       border-radius: 10px;
+   }
+
+   button:hover {
+       box-shadow: inset;
+       cursor: pointer;
+       color: white;
+       background-color: black;
+   }
   </style>
   <title>Static Template</title>
  </head>
  <body>
   <h1>Fundraising Grid</h1>
   <div id="grid"></div>
-  <button onclick="raffle()">Pick Winner NOW!! DO IT! C'MON!</button>
+  <div id="select-winner">
+  <button onclick="raffle()">Click here to start the raffle!</button>
   <div id="winner"></div>
+  </div>
   <script>
    const grid = document.getElementById("grid");
    const entries = JSON.parse(localStorage.getItem("entries")) || [];
    const takenBlocks = JSON.parse(localStorage.getItem("takenBlocks")) || [];
    const winner = document.getElementById("winner");
+   const titleText = document.querySelector('h1');
 
    for (let i = 1; i < 101; i++) {
     let cell = document.createElement("span");
