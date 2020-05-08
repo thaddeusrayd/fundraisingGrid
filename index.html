@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <style>
+   * {
+    box-sizing: border-box;
+   }
+
+   h1 {
+    text-align: center;
+   }
+
+   #grid {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+   }
+
+   .span {
+    border: 1px solid black;
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    padding-top: calc(25px - 0.75rem);
+    font-size: 1.5rem;
+    line-height: 1;
+   }
+
+   .span:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+   }
+
+   .span--taken {
+    background-color: black;
+   }
+  </style>
+  <title>Static Template</title>
+ </head>
+ <body>
+  <h1>Fundraising Grid</h1>
+  <div id="grid"></div>
+  <button onclick="raffle()">Pick Winner NOW!! DO IT! C'MON!</button>
+  <div id="winner"></div>
+  <script>
+   const grid = document.getElementById("grid");
+   const entries = JSON.parse(localStorage.getItem("entries")) || [];
+   const takenBlocks = JSON.parse(localStorage.getItem("takenBlocks")) || [];
+   const winner = document.getElementById("winner");
+
+   for (let i = 1; i < 101; i++) {
+    let cell = document.createElement("span");
+    cell.classList.add("span", `span-${i}`);
+    cell.innerText = i;
+    grid.appendChild(cell);
+    const isTaken = takenBlocks.includes(`${i}`);
+    if (isTaken) {
+     cell.classList.add("span--taken");
+    }
+   }
+
+   function selectBlock(e) {
+    if (takenBlocks.includes(e.target.innerText)) {
+     alert("You can't");
+     return;
+    }
+    const name = prompt(
+     `Enter giver's full name for Block #${e.target.innerText}`
+    );
+    if (!name) return;
+    const contact = prompt("Enter any contact info.");
+    if (!contact) return;
+    const entrant = { name, contact };
+    const arr = new Array(Number(e.target.innerText)).fill(entrant);
+    entries.push(...arr);
+    takenBlocks.push(e.target.innerText);
+    localStorage.setItem("takenBlocks", JSON.stringify(takenBlocks));
+    localStorage.setItem("entries", JSON.stringify(entries));
+    e.target.classList.add("span--taken");
+   }
+
+   function raffle() {
+    function getRandomInt(max) {
+     return Math.floor(Math.random() * Math.floor(max));
+    }
+    const { name, contact } = entries[getRandomInt(entries.length)];
+    const announcement = document.createElement("h1");
+    announcement.innerText = `${name} -- ${contact}`;
+    winner.innerHTML = "";
+    winner.appendChild(announcement);
+    console.log(announcement);
+   }
+
+   grid.addEventListener("click", selectBlock);
+  </script>
+ </body>
+</html>
